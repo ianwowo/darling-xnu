@@ -27,6 +27,12 @@
 #define __DARWIN_VERS_1050 0
 #define VARIANT_PRE1050
 
+#if !__arm64__
+// removed on __arm64__ due to:
+//      duplicate symbol '_select' in:
+//          libsyscall/CMakeFiles/libsyscall.dir/wrappers/cancelable/select-cancel.c.o
+//          libsyscall/CMakeFiles/libsyscall.dir/wrappers/legacy/select-pre1050.c.o
 #include "../select-base.c"
+#endif
 
 #endif

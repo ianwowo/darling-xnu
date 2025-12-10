@@ -240,6 +240,20 @@ _OSWriteInt64(
 
 /* Functions for loading big endian to host endianess. */
 
+#if (defined(_POSIX_C_SOURCE) || defined(_XOPEN_SOURCE)) && defined(__arm64__)
+
+#define OSReadBigInt16(base, byteOffset) _OSReadSwapInt16(base, byteOffset)
+#define OSReadBigInt32(base, byteOffset) _OSReadSwapInt32(base, byteOffset)
+#define OSReadBigInt64(base, byteOffset) _OSReadSwapInt64(base, byteOffset)
+
+/* Functions for storing host endianess to big endian. */
+
+#define OSWriteBigInt16(base, byteOffset, data) _OSWriteSwapInt16(base, byteOffset, data)
+#define OSWriteBigInt32(base, byteOffset, data) _OSWriteSwapInt32(base, byteOffset, data)
+#define OSWriteBigInt64(base, byteOffset, data) _OSWriteSwapInt64(base, byteOffset, data)
+
+#else
+
 #define OSReadBigInt16(base, byteOffset) OSReadSwapInt16(base, byteOffset)
 #define OSReadBigInt32(base, byteOffset) OSReadSwapInt32(base, byteOffset)
 #define OSReadBigInt64(base, byteOffset) OSReadSwapInt64(base, byteOffset)
@@ -249,6 +263,8 @@ _OSWriteInt64(
 #define OSWriteBigInt16(base, byteOffset, data) OSWriteSwapInt16(base, byteOffset, data)
 #define OSWriteBigInt32(base, byteOffset, data) OSWriteSwapInt32(base, byteOffset, data)
 #define OSWriteBigInt64(base, byteOffset, data) OSWriteSwapInt64(base, byteOffset, data)
+
+#endif
 
 /* Functions for loading little endian to host endianess. */
 
