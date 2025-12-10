@@ -136,8 +136,7 @@ __darling_mach_syscall:
 	stp fp, lr, [sp, #-16]!
 	mov fp, sp
 
-Lentry_hook:
-	XTRACE_RESERVED_SPACE
+	// --- entry hook removed ---
 
 	// void* x9 = &__mach_syscall_table 
 	adrp	x9, ___mach_syscall_table@PAGE
@@ -158,21 +157,21 @@ mach_no_syscall:
 	bl		___unknown_mach_syscall
 
 mach_return:
-Lexit_hook:
-	XTRACE_RESERVED_SPACE
+	// --- exit hook removed ---
 
 	ldp fp, lr, [sp], #16
 	ret
 
 
 .section        __DATA,__data
-.globl __darling_mach_syscall_entry
-.globl __darling_mach_syscall_exit
+//.globl __darling_mach_syscall_entry
+//.globl __darling_mach_syscall_exit
 
-__darling_mach_syscall_entry:
-	.long Lentry_hook
-__darling_mach_syscall_exit:
-	.long Lexit_hook
+/* set the hook pointers to zero so no hook is called */
+//__darling_mach_syscall_entry:
+//	.long 0
+//__darling_mach_syscall_exit:
+//	.long 0
 #else
 #	error Missing assembly
 #endif
